@@ -31,16 +31,30 @@ const AUser = () => {
   useEffect(() => {
     getRegisterUser();
   }, [])
-  function imageConvertor(value, setter) {
-    var reader = new FileReader();
-    var f = value
-    reader.onloadend = function () {
-        console.log(reader.result);
+  function imageConvertor(files, setter,idx) {
+    var file = files[0]
+    if(file.size <= 500) {
+      var reader = new FileReader();
+      reader.onloadend = function () {
+        if(idx === 'undefined') {
+          setter(reader.result);
+        } else {
+          setter(reader.result, idx);
+        }
+      }
+      reader.readAsDataURL(file);
+    } else {
+      alert("Only smaller than 500kb")
     }
-    const data =reader.readAsDataURL(f[0]);
-    setter(data)
-    console.log(data);
 }
+
+ function setCompanyImage(data,idx) {
+  console.log(idx)
+  const theData = theWorkExperiences[idx];
+  theData.companyLogo = data;
+  theWorkExperiences[idx] = theData;
+  setTheWorkExperiences(Array.from(theWorkExperiences));
+ }
   const register = () => {
       const data = {
         "theName": theName,
@@ -55,11 +69,12 @@ const AUser = () => {
   return <div className="App">
     <h1>Users</h1>
     <div style={{display: "grid"}}>
-      <input type="text" onChange={(e) => setTheName(e.target.value)} defaultValue={theName}></input>
-      <input type="file" onChange={(e) => {
-        imageConvertor(e.target.value, setTheProfilePicture)
-      }} defaultValue={theProfilePicture}></input>
-      <input type="text" onChange={(e) => setTheAge(e.target.value)} defaultValue={theAge}></input>
+      <p>Name</p><input type="text" onChange={(e) => setTheName(e.target.value)} defaultValue={theName}></input>
+      <p>Profile Image</p><img style={{width: 100, height: 100}} src={theProfilePicture}/>
+      <p>Profile Picture</p><input type="file" onChange={(e) => {
+        imageConvertor(e.target.files, setTheProfilePicture)
+      }}></input>
+      <p>Age</p><input type="text" onChange={(e) => setTheAge(e.target.value)} defaultValue={theAge}></input>
       <div>Work experiences</div><button onClick={() => {
         const theData = Array.from(theWorkExperiences);
         theData.push({
@@ -74,7 +89,7 @@ const AUser = () => {
       }}>Add More</button>
       {theWorkExperiences.map ? theWorkExperiences.map((c,idx) => 
           <div key={idx}>
-              <input type="datetime-local" onChange={(e) => 
+              <p>Start date</p><input type="datetime-local" onChange={(e) => 
                 { 
                   const theData = theWorkExperiences[idx];
                   theData.startDate = e.target.value;
@@ -82,7 +97,7 @@ const AUser = () => {
                   setTheWorkExperiences(Array.from(theWorkExperiences));
                 }
               } defaultValue={c.startDate}></input>
-             <input type="datetime-local" onChange={(e) => 
+             <p>End date</p><input type="datetime-local" onChange={(e) => 
                 { 
                   const theData = theWorkExperiences[idx];
                   theData.endDate = e.target.value;
@@ -90,7 +105,7 @@ const AUser = () => {
                   setTheWorkExperiences(Array.from(theWorkExperiences));
                 }
               } defaultValue={c.endDate}></input>
-               <input type="text" onChange={(e) => 
+               <p>Job title</p><input type="text" onChange={(e) => 
                 { 
                   const theData = theWorkExperiences[idx];
                   theData.jobTitle = e.target.value;
@@ -98,7 +113,7 @@ const AUser = () => {
                   setTheWorkExperiences(Array.from(theWorkExperiences));
                 }
               } defaultValue={c.jobTitle}></input>
-               <input type="text" onChange={(e) => 
+               <p>Company</p><input type="text" onChange={(e) => 
                 { 
                   const theData = theWorkExperiences[idx];
                   theData.company = e.target.value;
@@ -106,15 +121,11 @@ const AUser = () => {
                   setTheWorkExperiences(Array.from(theWorkExperiences));
                 }
               } defaultValue={c.company}></input>
-               <input type="file" onChange={(e) => 
-                { 
-                  const theData = theWorkExperiences[idx];
-                  theData.companyLogo = e.target.value;
-                  theWorkExperiences[idx] = theData;
-                  setTheWorkExperiences(Array.from(theWorkExperiences));
-                }
-              }></input>
-               <input type="text" onChange={(e) => 
+               <p>Company logo</p><img style={{width: 100, height: 100}} src={c.companyLogo}/>
+                <input type="file" onChange={(e) => {
+                  imageConvertor(e.target.files, setCompanyImage, idx)
+                }}></input>
+               <p>Job description</p><input type="text" onChange={(e) => 
                 { 
                   const theData = theWorkExperiences[idx];
                   theData.jobDescription = e.target.value;
