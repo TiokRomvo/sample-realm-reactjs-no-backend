@@ -31,6 +31,16 @@ const AUser = () => {
   useEffect(() => {
     getRegisterUser();
   }, [])
+  function imageConvertor(value, setter) {
+    var reader = new FileReader();
+    var f = value
+    reader.onloadend = function () {
+        console.log(reader.result);
+    }
+    const data =reader.readAsDataURL(f[0]);
+    setter(data)
+    console.log(data);
+}
   const register = () => {
       const data = {
         "theName": theName,
@@ -46,7 +56,9 @@ const AUser = () => {
     <h1>Users</h1>
     <div style={{display: "grid"}}>
       <input type="text" onChange={(e) => setTheName(e.target.value)} defaultValue={theName}></input>
-      <input type="file" onChange={(e) => theProfilePicture(e.target.value)} defaultValue={theProfilePicture}></input>
+      <input type="file" onChange={(e) => {
+        imageConvertor(e.target.value, setTheProfilePicture)
+      }} defaultValue={theProfilePicture}></input>
       <input type="text" onChange={(e) => setTheAge(e.target.value)} defaultValue={theAge}></input>
       <div>Work experiences</div><button onClick={() => {
         const theData = Array.from(theWorkExperiences);
