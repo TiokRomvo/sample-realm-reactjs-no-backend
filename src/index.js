@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import ShareVideos from "./ShareVideos";
+import UserRegistration  from "./UserRegistration";
 
 ReactDOM.render(<React.StrictMode>
-  <ShareVideos/>
+  <UserRegistration/>
 </React.StrictMode>, document.getElementById('root'));
