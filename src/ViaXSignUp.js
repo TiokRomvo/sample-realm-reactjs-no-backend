@@ -3,8 +3,8 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField';
 import axios from "axios";
-import backgroundImageUrl from './watercolor-gb79109584_1920.png'
-import logoUrl from './annotation-gb790942f5_640.png'
+import backgroundImageUrl from './auth-bg.256b7710.png'
+import logoUrl from './logo-color.1ab1dfe3.svg'
 import { styled } from '@mui/material/styles';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
@@ -54,7 +54,8 @@ const backgroundStyle = {
     alignItems: 'center',
     justifyContent: 'center',
     backgroundImage: `url(${backgroundImageUrl})`,
-    height: '100vh',
+    backgroundRepeat: 'repeat',
+    minHeight: '100vh',
     backgroundColor: "#0b454f"
 }
 const textBoxStyle = {
@@ -65,7 +66,7 @@ const formInfo = () => {
     return (
         <>
         <div style={formInfoHeaderBox}>
-            <img src={logoUrl} style={{width: '280px', height: '113px'}}/>
+            <img src={logoUrl}/>
             <div style={{    display: 'flex',
                 flexDirection: 'column',
                 gap: '10px',
@@ -119,13 +120,14 @@ const formInput = () => {
                 control={<Checkbox defaultValue={false} />}/>
             <Button variant="contained" onClick={() => register()}>Sign Up</Button>
             <span>By clicking Sign up or Continue with Google, you agree to viAct’s <span style={{color: 'red', fontWeight: 'bold'}}>Terms and Conditions for Free Trial</span>.</span>
-            <span>Already have an account? <span style={{color: 'red', fontWeight: 'bold'}}>Log In</span>.</span>
+            <span>Already have an account? <a href="?request=" style={{color: 'red', fontWeight: 'bold'}}>Log In</a>.</span>
         </div>
     </>
     )
 }
   return <div className="App">
     <div style={backgroundStyle}>
+        <div>
             <Box
                  sx={{
                     p: 2,
@@ -133,10 +135,10 @@ const formInput = () => {
                     display: 'grid',
                     gridTemplateColumns: { md: '1fr 1fr' },
                     gap: 2,
-                    minWidth: '800px',
-                    minHeight: '600px',
-                    maxWidth: '90%',
-                    maxHeight: '80%',
+                    minWidth: '600px',
+                    minHeight: '500px',
+                    maxWidth: '1000px',
+                    maxHeight: '1000px',
                     borderRadius: '10px'
                   }}
                 >
@@ -147,6 +149,7 @@ const formInput = () => {
                         {formInput()}
                     </Item>
             </Box>
+            </div>
         </div>
     </div>
 };
