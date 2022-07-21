@@ -9,12 +9,14 @@ import { styled } from '@mui/material/styles';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Button from '@mui/material/Button';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 const Item = styled(Paper)(({ theme }) => ({
   textAlign: 'center',
 }));
 
 const ViaXSignUp = () => {
-  const usersAddLink = 'http://localhost:3000/api/auth/register';
+  const usersAddLink = 'http://localhost:4000/api/auth/register';
   const [theFirstName, setTheFirstName] = useState();
   const [theLastName, setTheLastName] = useState();
   const [theEmail, setTheEmail] = useState();
@@ -23,17 +25,33 @@ const ViaXSignUp = () => {
   const [theConfirmPassword, setTheConfirmPassword] = useState();
   const [thePhone, setThePhone] = useState();
   const [isChecked, setIsChecked] = useState(false);
+  const [snackBarOpen, setIsSnackBarOpen] = useState(false);
+  const [infoMessage, setInfoMessage] = useState();
   const register = () => {
     if(thePassword === theConfirmPassword) {
-      const data ={
-        "name": theFirstName.concat(theLastName),
-        "username": theUserName,
-        "email": theEmail,
-        "password": thePassword,
-        "phone": thePhone,
-      }
-        axios.post(usersAddLink, data).then(res => {
-      })
+        if(theFirstName && theLastName)
+        {
+            const data ={
+                "name": theFirstName.concat(theLastName),
+                "username": theUserName,
+                "email": theEmail,
+                "password": thePassword,
+                "phone": thePhone,
+            }
+                axios.post(usersAddLink, data).then(res => {
+                    setIsSnackBarOpen(true);
+                    setInfoMessage(res.message.toString())
+                }).catch(err => {
+                    setIsSnackBarOpen(true);
+                    setInfoMessage(err.response.data.message.toString())
+                })
+        } else {
+            setIsSnackBarOpen(true);
+            setInfoMessage("First name and last name are empty");
+        }
+    } else {
+        setIsSnackBarOpen(true);
+        setInfoMessage("Confirm password not match");
     }
   }
 const formInfoHeaderBox = {
@@ -109,15 +127,15 @@ const formInput = () => {
              <TextField style={{textBoxStyle}} onChange={e=> setTheFirstName(e.target.value)} id="outlined-basic" label="First Name" variant="outlined" />
              <TextField style={{textBoxStyle}} onChange={e=> setTheLastName(e.target.value)} id="outlined-basic" label="Last Name" variant="outlined" />
              <TextField style={{textBoxStyle}} onChange={e=> setTheUserName(e.target.value)} id="outlined-basic" label="Username" variant="outlined" />
-             <TextField style={{textBoxStyle}} onChange={e=> setTheEmail(e.target.value)} id="outlined-basic" label="Email" variant="outlined" />
-             <TextField style={{textBoxStyle}} onChange={e=> setThePhone(e.target.value)} id="outlined-basic" label="Phone" variant="outlined" />
-             <TextField style={{textBoxStyle}} onChange={e=> setThePassword(e.target.value)} id="outlined-basic" label="Password" variant="outlined" />
-             <TextField style={{textBoxStyle}} onChange={e=> setTheConfirmPassword(e.target.value)} id="outlined-basic" label="Confirm Password" variant="outlined" />
+             <TextField type="email" style={{textBoxStyle}} onChange={e=> setTheEmail(e.target.value)} id="outlined-basic" label="Email" variant="outlined" />
+             <TextField type="number" style={{textBoxStyle}} onChange={e=> setThePhone(e.target.value)} id="outlined-basic" label="Phone" variant="outlined" />
+             <TextField type={isChecked ? "text" : "password"} style={{textBoxStyle}} onChange={e=> setThePassword(e.target.value)} id="outlined-basic" label="Password" variant="outlined" />
+             <TextField type={isChecked ? "text" : "password"} style={{textBoxStyle}} onChange={e=> setTheConfirmPassword(e.target.value)} id="outlined-basic" label="Confirm Password" variant="outlined" />
         </div>
         <div style={formControlStyle}>
             <FormControlLabel
                 label="Show password"
-                control={<Checkbox defaultValue={false} />}/>
+                control={<Checkbox onChange={()=> setIsChecked(!isChecked)} defaultValue={false} />}/>
             <Button variant="contained" onClick={() => register()}>Sign Up</Button>
             <span>By clicking Sign up or Continue with Google, you agree to viAct’s <span style={{color: 'red', fontWeight: 'bold'}}>Terms and Conditions for Free Trial</span>.</span>
             <span>Already have an account? <a href="?request=" style={{color: 'red', fontWeight: 'bold'}}>Log In</a>.</span>
@@ -126,6 +144,13 @@ const formInput = () => {
     )
 }
   return <div className="App">
+    <Snackbar
+    open={snackBarOpen}
+    autoHideDuration={6000}
+    onClose={() => setIsSnackBarOpen(false)}
+    >
+          <Alert severity="info">{infoMessage}</Alert>
+    </Snackbar>
     <div style={backgroundStyle}>
         <div>
             <Box

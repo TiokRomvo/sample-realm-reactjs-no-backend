@@ -10,23 +10,30 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Button from '@mui/material/Button';
 import GoogleIcon from '@mui/icons-material/Google';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 const Item = styled(Paper)(({ theme }) => ({
   textAlign: 'center',
 }));
 
 const ViaXSignIn = () => {
-  const usersAddLink = 'http://localhost:3000/api/auth/login';
+  const usersAddLink = 'http://localhost:4000/api/auth/login';
   const [theEmail, setTheEmail] = useState();
   const [thePassword, setThePassword] = useState();
+  const [snackBarOpen, setIsSnackBarOpen] = useState(false);
+  const [infoMessage, setInfoMessage] = useState();
   const login = () => {
-    if(thePassword === theConfirmPassword) {
       const data ={
         "email": theEmail,
         "password": thePassword,
       }
         axios.post(usersAddLink, data).then(res => {
-      })
-    }
+            setIsSnackBarOpen(true);
+            setInfoMessage(res.message.toString())
+        }).catch(err => {
+            setIsSnackBarOpen(true);
+            setInfoMessage(err.response.data.message.toString())
+        })
   }
 const formInfoHeaderBox = {
     display: 'flex',
@@ -87,7 +94,7 @@ const formInput = () => {
     <>
         <div style={formControlStyle}>
             <TextField style={{textBoxStyle}} onChange={e=> setTheEmail(e.target.value)} id="outlined-basic" label="Email Or Username" variant="outlined" />
-             <TextField style={{textBoxStyle}} onChange={e=> setThePassword(e.target.value)} id="outlined-basic" label="Password" variant="outlined" />
+             <TextField type="password" style={{textBoxStyle}} onChange={e=> setThePassword(e.target.value)} id="outlined-basic" label="Password" variant="outlined" />
              
         </div>
         <div style={formControlStyle}>
@@ -110,6 +117,13 @@ const formInput = () => {
     )
 }
   return <div className="App">
+      <Snackbar
+    open={snackBarOpen}
+    autoHideDuration={6000}
+    onClose={() => setIsSnackBarOpen(false)}
+    >
+          <Alert severity="info">{infoMessage}</Alert>
+    </Snackbar>
     <div style={backgroundStyle}>
         <div>
             <Box
