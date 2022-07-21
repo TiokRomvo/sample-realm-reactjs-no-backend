@@ -124,13 +124,13 @@ const formInput = () => {
         <div style={{display: 'flex',
             gap: '10px',
             flexDirection: 'column'}}>
-             <TextField style={{textBoxStyle}} onChange={e=> setTheFirstName(e.target.value)} id="outlined-basic" label="First Name" variant="outlined" />
-             <TextField style={{textBoxStyle}} onChange={e=> setTheLastName(e.target.value)} id="outlined-basic" label="Last Name" variant="outlined" />
-             <TextField style={{textBoxStyle}} onChange={e=> setTheUserName(e.target.value)} id="outlined-basic" label="Username" variant="outlined" />
-             <TextField type="email" style={{textBoxStyle}} onChange={e=> setTheEmail(e.target.value)} id="outlined-basic" label="Email" variant="outlined" />
-             <TextField type="number" style={{textBoxStyle}} onChange={e=> setThePhone(e.target.value)} id="outlined-basic" label="Phone" variant="outlined" />
-             <TextField type={isChecked ? "text" : "password"} style={{textBoxStyle}} onChange={e=> setThePassword(e.target.value)} id="outlined-basic" label="Password" variant="outlined" />
-             <TextField type={isChecked ? "text" : "password"} style={{textBoxStyle}} onChange={e=> setTheConfirmPassword(e.target.value)} id="outlined-basic" label="Confirm Password" variant="outlined" />
+             <TextField label={<span>First Name <span style={{color:'red'}}>*</span></span>} style={{textBoxStyle}} onChange={e=> setTheFirstName(e.target.value)} id="outlined-basic" variant="outlined" />
+             <TextField label={<span>Last Name <span style={{color:'red'}}>*</span></span>} style={{textBoxStyle}} onChange={e=> setTheLastName(e.target.value)} id="outlined-basic" variant="outlined" />
+             <TextField label={<span>Username <span style={{color:'red'}}>*</span></span>} style={{textBoxStyle}} onChange={e=> setTheUserName(e.target.value)} id="outlined-basic" variant="outlined" />
+             <TextField label={<span>Email <span style={{color:'red'}}>*</span></span>} type="email" style={{textBoxStyle}} onChange={e=> setTheEmail(e.target.value)} id="outlined-basic" variant="outlined" />
+             <TextField label="Phone" type="number" style={{textBoxStyle}} onChange={e=> setThePhone(e.target.value)} id="outlined-basic" variant="outlined" />
+             <TextField label={<span>Password <span style={{color:'red'}}>*</span></span>} type={isChecked ? "text" : "password"} style={{textBoxStyle}} onChange={e=> setThePassword(e.target.value)} id="outlined-basic" variant="outlined" />
+             <TextField label={<span>Confirm Password <span style={{color:'red'}}>*</span></span>} type={isChecked ? "text" : "password"} style={{textBoxStyle}} onChange={e=> setTheConfirmPassword(e.target.value)} id="outlined-basic" variant="outlined" />
         </div>
         <div style={formControlStyle}>
             <FormControlLabel
