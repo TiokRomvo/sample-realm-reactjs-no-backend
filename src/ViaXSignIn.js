@@ -31,8 +31,14 @@ const ViaXSignIn = () => {
             setIsSnackBarOpen(true);
             setInfoMessage(res.message.toString())
         }).catch(err => {
+            var error = "API refuse to work";
+            try {
+                error = err.response.data.message.toString();
+            } catch(ex) {
+
+            }
             setIsSnackBarOpen(true);
-            setInfoMessage(err.response.data.message.toString())
+            setInfoMessage(error)
         })
   }
 const formInfoHeaderBox = {
