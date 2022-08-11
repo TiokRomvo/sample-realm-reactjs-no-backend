@@ -98,6 +98,7 @@ const AirTableStudent = (props) => {
     <div>
         {   isCanAccess ?
         <div style={{display: 'flex', flexDirection: 'column'}}>
+            <button onClick={() => { window.location.reload(false);}}>Log Out</button>
             {toBeDisplayed.map(a => 
             <div style={{borderStyle: 'ridge' }}>
                 <h4>Name</h4>
@@ -117,7 +118,6 @@ const AirTableStudent = (props) => {
         </div> 
         :
         <div style={{display: 'flex', flexDirection: 'column'}}>
-        <button>Log Out</button>
         <input type="text" onChange={(e) => setStudentName(e.target.value)}></input>
         <button onClick={() => filterNow()}>Login</button>
         </div>
