@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import axios from "axios";
+import * as apiCaller from "./apiCaller";
 
 const UserRegistration = () => {
   const registerUserList = 'https://us-east-1.aws.data.mongodb-api.com/app/application-0-jzhmn/endpoint/getDocuments?collectionName=userRegistration';
@@ -16,7 +16,7 @@ const UserRegistration = () => {
   const [isChecked, setIsChecked] = useState(false);
   const [theUserList, setTheUserList] = useState([]);
   const getRegisterUsers = () => {
-    axios.get(registerUserList).then(res => {
+    apiCaller.request(registerUserList, "GET").then(res => {
       const {data} = res;
       setTheUserList(data);
     })
@@ -37,7 +37,7 @@ const UserRegistration = () => {
         "theCountryResident": theCountryResident,
         "theCIF": theCIF
       }
-        axios.post(usersAddLink, data).then(res => {
+      apiCaller.request(usersAddLink, "POST", data).then(res => {
           getRegisterUsers();
       })
     }

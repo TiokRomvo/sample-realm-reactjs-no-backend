@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import axios from "axios";
+import * as apiCaller from "./apiCaller";
 
 const AUser = () => {
   const userData = 'https://us-east-1.aws.data.mongodb-api.com/app/application-0-jzhmn/endpoint/getADocument?collectionName=aUser';
@@ -19,7 +19,7 @@ const AUser = () => {
   }
   ]);
   const getRegisterUser = () => {
-    axios.get(userData.concat("&id=").concat(theId)).then(res => {
+    apiCaller.request(userData.concat("&id=").concat(theId), "GET").then(res => {
       const {data} = res;
       const {theName, _id, theProfilePicture, theAge, theWorkExperiences} = data;
       setTheName(theName);
@@ -62,7 +62,7 @@ const AUser = () => {
         "theAge": theAge,
         "theWorkExperiences": theWorkExperiences
       }
-        axios.put(usersAddLink, data).then(res => {
+      apiCaller.request(usersAddLink,"POST", data).then(res => {
           getRegisterUser();
       })
   }

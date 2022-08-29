@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import axios from "axios";
+import * as apiCaller from "./apiCaller";
 
 const ShareVideos = () => {
   const videosLink = 'https://us-east-1.aws.data.mongodb-api.com/app/application-0-jzhmn/endpoint/getDocuments?collectionName=youTubeVideos';
@@ -13,7 +13,7 @@ const ShareVideos = () => {
   const [isSharing, setIsSharing] = useState(false);
   const [shareUrl, setShareUrl] = useState();
   const getVideos = () => {
-    axios.get(videosLink).then(res => {
+    apiCaller.request(videosLink, 'GET').then(res => {
       const {data} = res;
       setVideos(data);
     })
@@ -26,7 +26,7 @@ const ShareVideos = () => {
       "email": email,
       "youtubeUrl": shareUrl
     }
-    axios.post(videosAddLink, data).then(res => {
+    apiCaller.request(videosAddLink, "POST", data).then(res => {
       setIsSharing(false);
       getVideos();
     })
@@ -36,12 +36,12 @@ const ShareVideos = () => {
       "email": email,
       "password": password
     }
-    axios.post(usersAddLink, data).then(res => {
+    apiCaller.request(usersAddLink, "POST", data).then(res => {
       setIsLogin(true);
     })
   }
   const login = () => {
-    axios.get(usersLink.concat("&queryParams=email=").concat(email).concat("*").concat("password=").concat(password)).then(res => {
+    apiCaller.request(usersLink.concat("&queryParams=email=").concat(email).concat("*").concat("password=").concat(password), "GET").then(res => {
       const {data} = res;
       if(data.length > 0) {
         setIsLogin(true);
