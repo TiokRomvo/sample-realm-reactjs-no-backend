@@ -15,7 +15,7 @@ export function request (url, method, body, headers) {
             }
         };
         xhr.onerror = () => reject(xhr.statusText);
-        xhr.send(body);
+        xhr.send(JSON.stringify(body));
     });
 };
 
