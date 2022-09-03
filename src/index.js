@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import AUser  from "./AUser";
 import ShareVideos  from "./ShareVideos";
 import ViaXSignUp  from "./ViaXSignUp";
-import ViaXSignUp  from "./ViaXSignUp";
 import ViaXSignIn  from "./ViaXSignIn";
 const urlSearchParams = new URLSearchParams(window.location.search);
 const params = Object.fromEntries(urlSearchParams.entries());
