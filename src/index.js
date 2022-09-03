@@ -4,6 +4,7 @@ import AUser  from "./AUser";
 import ShareVideos  from "./ShareVideos";
 import ViaXSignUp  from "./ViaXSignUp";
 import ViaXSignIn  from "./ViaXSignIn";
+import UserRegistration from "./UserRegistration";
 const urlSearchParams = new URLSearchParams(window.location.search);
 const params = Object.fromEntries(urlSearchParams.entries());
 const {request} = params;
